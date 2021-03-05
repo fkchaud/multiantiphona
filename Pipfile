@@ -7,6 +7,7 @@ name = "pypi"
 django = "==3.0.5"
 ipdb = "*"
 djongo = "==1.3.4"
+pre-commit = "*"
 
 [dev-packages]
 
