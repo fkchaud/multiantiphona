@@ -25,12 +25,13 @@ SECRET_KEY = 'c)qlu5z+@^$v6b65jnp9i42xi0_u7xr6*d9jpght(67)8&5rs6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS: list = []
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'antiphona.apps.AntiphonaConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
