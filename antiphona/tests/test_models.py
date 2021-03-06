@@ -5,7 +5,10 @@ import pytest
 from antiphona.models import (
     VALID_LANGUAGES,
     Antiphona,
+    Celebration,
+    LiturgicalSeasons,
 )
+from antiphona.tests.factories.model_factories import AntiphonaFactory
 
 
 class TestAntiphona(TestCase):
@@ -46,3 +49,45 @@ class TestAntiphona(TestCase):
 
         assert antiphona.text == text
         assert antiphona.link == link
+
+
+class TestCelebration(TestCase):
+
+    def test_create_with_empty_values(self) -> None:
+        celebration = Celebration()
+
+        with pytest.raises(ValidationError) as exc:
+            celebration.full_clean()
+
+        expected_errors = {
+            'liturgical_season': ['This field cannot be blank.'],
+            'name': ['This field cannot be blank.'],
+        }
+        assert exc.value.message_dict == expected_errors
+
+    def test_create_with_wrong_season(self) -> None:
+        celebration = Celebration(
+            name="Valid name",
+            liturgical_season="I am invalid",
+        )
+        with pytest.raises(ValidationError, match="is not a valid choice"):
+            celebration.full_clean()
+
+    def test_create_without_antiphonas(self) -> None:
+        celebration = Celebration(
+            name="Valid name",
+            liturgical_season=LiturgicalSeasons.ADVENT,
+        )
+        celebration.full_clean()
+
+    def test_create_with_antiphonas(self) -> None:
+        antiphona_1 = AntiphonaFactory()
+        antiphona_2 = AntiphonaFactory()
+        celebration = Celebration.objects.create(
+            name="Valid name",
+            liturgical_season=LiturgicalSeasons.ADVENT,
+            antiphonas=[antiphona_1, antiphona_2],
+        )
+        celebration.full_clean()
+
+        assert list(celebration.antiphonas.all()) == [antiphona_1, antiphona_2]

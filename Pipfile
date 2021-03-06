@@ -18,6 +18,8 @@ pytest = "*"
 pytest-django = "*"
 pytest-cov = "*"
 coveralls = "*"
+factory-boy = "*"
+faker = "*"
 
 [requires]
 python_version = "3.9"
