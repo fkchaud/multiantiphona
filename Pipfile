@@ -13,6 +13,8 @@ parameterized = "*"
 pre-commit = "*"
 pytest = "*"
 pytest-django = "*"
+pytest-cov = "*"
+coveralls = "*"
 
 [requires]
 python_version = "3.9"
