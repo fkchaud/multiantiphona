@@ -22,7 +22,6 @@ class TypeValidator:
         self.types = tuple(types)
 
     def must_be_of_type(self, value: Any) -> None:
-        asd: type
         if not isinstance(value, self.types):
             raise ValidationError(
                 "Value {value} must be of type {types}".format(
@@ -67,7 +66,7 @@ class ValidKeyValidator:
         if invalid_keys:
             raise ValidationError(
                 'Value: {invalid_keys} are invalid keys. Only keys accepted are {valid_keys}'.format(
-                    invalid_keys=', '.join(map(str, invalid_keys)),
+                    invalid_keys=', '.join(sorted(map(str, invalid_keys))),
                     valid_keys=', '.join(self.valid_keys),
                 ),
                 params={'value': value},
