@@ -6,8 +6,10 @@ from typing import (
 )
 
 from django.core.exceptions import ValidationError
+from django.utils.deconstruct import deconstructible
 
 
+@deconstructible
 class TypeValidator:
 
     def __init__(self, types: Union[type, Iterable[type]]) -> None:
@@ -52,6 +54,7 @@ class ValuesTypeValidator(TypeValidator):
             self.must_be_of_type(v)
 
 
+@deconstructible
 class ValidKeyValidator:
 
     def __init__(self, valid_keys: Iterable) -> None:

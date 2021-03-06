@@ -7,6 +7,8 @@ from django.db import (
 from django.db.models import deletion
 from djongo import models as djongo_models
 
+import antiphona.validators
+
 
 class Migration(migrations.Migration):
 
@@ -19,7 +21,14 @@ class Migration(migrations.Migration):
             name='Antiphona',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('text', djongo_models.JSONField()),
+                ('text', djongo_models.JSONField(default={}, validators=[
+                    antiphona.validators.TypeValidator(dict),
+                    antiphona.validators.KeysTypeValidator(str),
+                    antiphona.validators.ValuesTypeValidator(str),
+                    antiphona.validators.ValidKeyValidator(
+                        valid_keys={'en_US', 'es_US', 'es_ES', 'es_AR', 'la', 'es_MX'},
+                    ),
+                ])),
                 ('link', models.URLField()),
             ],
         ),
